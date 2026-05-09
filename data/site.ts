@@ -41,7 +41,7 @@ export const site = {
       },
     ],
   },
-  experience: [
+  experiences: [
     {
       period: '2025',
       title: 'Lead Product Designer',
