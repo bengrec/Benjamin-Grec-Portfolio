@@ -82,7 +82,7 @@
   }
 
   .section-heading {
-    @apply mb-8 text-base font-bold uppercase tracking-tight text-slate-lightest lg:hidden;
+    @apply mb-8 text-base font-bold uppercase tracking-tight text-slate lg:hidden;
   }
 
   .panel-card {
