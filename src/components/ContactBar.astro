@@ -5,6 +5,15 @@ import { Icon } from 'astro-icon/components';
 
 <div class="flex items-center gap-1">
   <a
+    href={site.contact.website}
+    class="subtle-link inline-flex h-9 w-9 items-center justify-center rounded"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Website"
+  >
+    <Icon name="ph:globe" class="h-6 w-6" />
+  </a>
+  <a
     href={site.contact.github}
     class="subtle-link inline-flex h-9 w-9 items-center justify-center rounded"
     target="_blank"
