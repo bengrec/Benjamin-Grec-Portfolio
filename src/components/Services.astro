@@ -1,0 +1,60 @@
+---
+import { site } from '@data/site';
+import { Icon } from 'astro-icon/components';
+---
+
+<section
+  id="services"
+  class="mb-24 scroll-mt-24 lg:mb-32 lg:scroll-mt-8"
+  aria-labelledby="services-heading"
+>
+  <h2 id="services-heading" class="section-heading">Services</h2>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    {site.services.map((service) => (
+      <article class="scroll-stat panel-card space-y-4">
+        <Icon name={service.icon} class="h-6 w-6 text-accent" />
+        <h3 class="text-sm font-bold uppercase tracking-wide text-maintext">{service.title}</h3>
+        <p class="body-copy text-sm leading-relaxed">{service.description}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .scroll-stat {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .scroll-stat.reveal {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+</style>
+
+<script>
+  function revealCards() {
+    const cards = document.querySelectorAll('#services .scroll-stat');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Array.from(cards).indexOf(entry.target);
+            setTimeout(() => {
+              entry.target.classList.add('reveal');
+            }, (index % 3) * 100);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -10px 0px' }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  }
+
+  revealCards();
+  document.addEventListener('astro:after-swap', revealCards);
+</script>

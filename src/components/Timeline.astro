@@ -1,0 +1,64 @@
+---
+import { site } from '@data/site';
+---
+
+<section
+  id="experience"
+  class="mb-24 scroll-mt-24 lg:mb-32 lg:scroll-mt-8"
+  aria-labelledby="experience-heading"
+>
+  <h2 id="experience-heading" class="section-heading">Experience</h2>
+  <div class="relative ml-3 border-l border-accent/20">
+    {site.timeline.map((item, i) => (
+      <div
+        class="scroll-stat relative pl-8 pb-10 last:pb-0"
+        style={`transition-delay: ${i * 80}ms`}
+      >
+        <span
+          class="absolute left-0 top-1.5 h-2 w-2 -translate-x-[calc(50%+0.5px)] rounded-full bg-accent"
+          aria-hidden="true"
+        />
+        <p class="font-mono text-xs uppercase tracking-wider text-accent">{item.period}</p>
+        <h3 class="mt-1 text-sm font-semibold text-maintext">{item.title}</h3>
+        <p class="text-sm text-subtext">{item.company}</p>
+        <p class="mt-0.5 text-xs text-textrain">{item.location}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .scroll-stat {
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .scroll-stat.reveal {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  function revealItems() {
+    const items = document.querySelectorAll('#experience .scroll-stat');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    items.forEach((item) => observer.observe(item));
+  }
+
+  revealItems();
+  document.addEventListener('astro:after-swap', revealItems);
+</script>
