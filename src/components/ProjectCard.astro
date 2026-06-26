@@ -6,10 +6,9 @@ interface Props {
   imageSrc?: string;
 }
 
-const { project, imageSrc: imageOverride } = Astro.props;
+const { project, imageSrc } = Astro.props;
 
 const techCategories = project.techCategories;
-const imageSrc = imageOverride ?? (project.image ? (project.image.startsWith('/') ? project.image : `/${project.image}`) : undefined);
 ---
 
 <article class="scroll-stat panel-card group space-y-6">
