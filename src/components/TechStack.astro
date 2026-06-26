@@ -1,0 +1,66 @@
+---
+import { site } from '@data/site';
+---
+
+<section
+  id="tech-stack"
+  class="mb-24 scroll-mt-24 lg:mb-32 lg:scroll-mt-8"
+  aria-labelledby="tech-stack-heading"
+>
+  <h2 id="tech-stack-heading" class="section-heading">Stack</h2>
+  <div class="space-y-10">
+    {site.techStack.map((group) => (
+      <div class="scroll-stat">
+        <h3 class="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
+          {group.category}
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          {group.items.map((item) => (
+            <span class="rounded border border-accent/20 bg-accent/5 px-3 py-1 text-xs font-medium text-subtext">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .scroll-stat {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .scroll-stat.reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  function revealGroups() {
+    const groups = document.querySelectorAll('#tech-stack .scroll-stat');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Array.from(groups).indexOf(entry.target);
+            setTimeout(() => {
+              entry.target.classList.add('reveal');
+            }, index * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    groups.forEach((g) => observer.observe(g));
+  }
+
+  revealGroups();
+  document.addEventListener('astro:after-swap', revealGroups);
+</script>
